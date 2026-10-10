@@ -277,9 +277,11 @@ textarea {
 /* PCでの削除ボタン */
 @media (min-width: 700px) {
   .delete-button {
-    font-size: 14px;
-    width: 70px;
-    height: 38px;
-    padding: 4px 8px;
-  }
+  width: 80px !important;
+  min-width: 80px;
+  height: 40px;
+  font-size: 13px !important;
+  padding: 4px 10px;
+  white-space: nowrap;
+}
 }
