@@ -576,7 +576,9 @@ if (window.firebaseDB) {
   );
 }
 
-  hideAddItemForm();
+saveData();
+
+hideAddItemForm();
 
 showCustomItems();
 
