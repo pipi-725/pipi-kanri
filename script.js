@@ -450,6 +450,18 @@ function saveProductionTargets() {
     JSON.stringify(targets)
   );
 
+// Firebaseにも制作目標を保存
+if (window.firebaseDB) {
+  const { database, ref, set } = window.firebaseDB;
+
+  set(
+    ref(database, "pipiData/productionTargets"),
+    targets
+  ).catch(function(error) {
+    console.error("制作目標のFirebase保存エラー:", error);
+  });
+}
+
   showProduction();
 }
 
@@ -800,6 +812,22 @@ function loadFirebaseData() {
         JSON.stringify(history)
       );
     }
+if (data.productionTargets) {
+  localStorage.setItem(
+    "productionTargets",
+    JSON.stringify(data.productionTargets)
+  );
+
+  document.getElementById("keyholderTarget").value =
+    data.productionTargets.keyholder;
+
+  document.getElementById("baneTarget").value =
+    data.productionTargets.bane;
+
+  document.getElementById("zipperTarget").value =
+    data.productionTargets.zipper;
+}
+
 
     showStocks();
     showHistory();
