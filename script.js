@@ -194,6 +194,18 @@ function saveData() {
     JSON.stringify(history)
   );
 
+// Firebaseにも保存
+if (window.firebaseDB) {
+  const { database, ref, set } = window.firebaseDB;
+
+  set(ref(database, "pipiData"), {
+    stocks: stocks,
+    history: history
+  }).catch(function(error) {
+    console.error("Firebase保存エラー:", error);
+  });
+}
+
   showStocks();
 
   showHistory();
@@ -746,3 +758,55 @@ function saveCustomProductionTarget(itemId) {
 
   showCustomProductionItems();
 }
+
+// --------------------
+// Firebaseからデータを読み込む
+// --------------------
+function loadFirebaseData() {
+
+  if (!window.firebaseDB) {
+    console.log("Firebaseの準備待ち...");
+    setTimeout(loadFirebaseData, 500);
+    return;
+  }
+
+  const { database, ref, onValue } = window.firebaseDB;
+
+  const dataRef = ref(database, "pipiData");
+
+  onValue(dataRef, function(snapshot) {
+
+    const data = snapshot.val();
+
+    if (!data) {
+      console.log("Firebaseにデータはまだありません");
+      return;
+    }
+
+    if (data.stocks) {
+      stocks = data.stocks;
+
+      localStorage.setItem(
+        "stocks",
+        JSON.stringify(stocks)
+      );
+    }
+
+    if (data.history) {
+      history = data.history;
+
+      localStorage.setItem(
+        "stockHistory",
+        JSON.stringify(history)
+      );
+    }
+
+    showStocks();
+    showHistory();
+    showProduction();
+
+    console.log("Firebaseから読み込みました");
+  });
+}
+
+loadFirebaseData();
