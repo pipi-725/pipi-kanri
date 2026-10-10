@@ -747,7 +747,6 @@ function showCustomProductionItems() {
 }
 
 function saveCustomProductionTarget(itemId) {
-
   const targets =
     JSON.parse(
       localStorage.getItem("productionTargets")
@@ -766,7 +765,17 @@ function saveCustomProductionTarget(itemId) {
     "productionTargets",
     JSON.stringify(targets)
   );
+// Firebaseにも制作目標を保存
+if (window.firebaseDB) {
+  const { database, ref, set } = window.firebaseDB;
 
+  set(
+    ref(database, "pipiData/productionTargets"),
+    targets
+  ).catch(function(error) {
+    console.error("追加商品の制作目標のFirebase保存エラー:", error);
+  });
+}
 
   showCustomProductionItems();
 }
