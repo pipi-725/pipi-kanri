@@ -198,10 +198,15 @@ function saveData() {
 if (window.firebaseDB) {
   const { database, ref, set } = window.firebaseDB;
 
-  set(ref(database, "pipiData"), {
-    stocks: stocks,
-    history: history
-  }).catch(function(error) {
+  set(
+  ref(database, "pipiData/stocks"),
+  stocks
+);
+
+set(
+  ref(database, "pipiData/history"),
+  history
+).catch(function(error) {
     console.error("Firebase保存エラー:", error);
   });
 }
