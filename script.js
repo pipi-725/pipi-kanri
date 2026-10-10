@@ -672,9 +672,82 @@ function showCustomItems() {
   </div>
 `;  
 
+const deleteButton =
+  document.createElement("button");
+
+deleteButton.textContent = "削除";
+deleteButton.className = "delete-button";
+
+deleteButton.onclick = function() {
+  deleteCustomItem(itemId);
+};
+
+item.appendChild(deleteButton);
 
     area.appendChild(item);
   });
+}
+function deleteCustomItem(itemId) {
+
+  const name = itemNames[itemId];
+
+  const ok = confirm(
+    name + "を削除しますか？"
+  );
+
+  if (!ok) {
+    return;
+  }
+
+  // データから削除
+  delete itemNames[itemId];
+  delete stocks[itemId];
+
+  const targets =
+    JSON.parse(
+      localStorage.getItem("productionTargets")
+    ) || {};
+
+  delete targets[itemId];
+
+  // ローカル保存
+  localStorage.setItem(
+    "itemNames",
+    JSON.stringify(itemNames)
+  );
+
+  localStorage.setItem(
+    "stocks",
+    JSON.stringify(stocks)
+  );
+
+  localStorage.setItem(
+    "productionTargets",
+    JSON.stringify(targets)
+  );
+
+  // Firebaseからも削除
+  if (window.firebaseDB) {
+    const { database, ref, set } = window.firebaseDB;
+
+    set(
+      ref(database, "pipiData/itemNames/" + itemId),
+      null
+    );
+
+    set(
+      ref(database, "pipiData/stocks/" + itemId),
+      null
+    );
+
+    set(
+      ref(database, "pipiData/productionTargets/" + itemId),
+      null
+    );
+  }
+
+  showCustomItems();
+  showProduction();
 }
 
 // --------------------
