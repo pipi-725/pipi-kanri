@@ -561,7 +561,7 @@ function addNewItem() {
     "stocks",
     JSON.stringify(stocks)
   );
-  
+
 // Firebaseにも追加商品を保存
 if (window.firebaseDB) {
   const { database, ref, set } = window.firebaseDB;
@@ -827,6 +827,15 @@ function loadFirebaseData() {
       return;
     }
 
+if (data.itemNames) {
+  itemNames = data.itemNames;
+
+  localStorage.setItem(
+    "itemNames",
+    JSON.stringify(itemNames)
+  );
+}
+
     if (data.stocks) {
       stocks = data.stocks;
 
@@ -864,6 +873,7 @@ if (data.productionTargets) {
     showStocks();
     showHistory();
     showProduction();
+    showCustomItems();
 
     console.log("Firebaseから読み込みました");
   });
