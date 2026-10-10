@@ -1,4 +1,4 @@
-const CACHE_NAME = "pipi-kanri-v2";
+const CACHE_NAME = "pipi-kanri-v3";
 
 const FILES_TO_CACHE = [
   "./",
@@ -36,4 +36,21 @@ self.addEventListener("fetch", function(event) {
       })
   );
 
+});
+
+// 古いキャッシュを削除
+self.addEventListener("activate", function(event) {
+  event.waitUntil(
+    caches.keys().then(function(cacheNames) {
+      return Promise.all(
+        cacheNames.map(function(cacheName) {
+          if (cacheName !== CACHE_NAME) {
+            return caches.delete(cacheName);
+          }
+        })
+      );
+    })
+  );
+
+  self.clients.claim();
 });
