@@ -561,19 +561,22 @@ function addNewItem() {
     "stocks",
     JSON.stringify(stocks)
   );
+  
 // Firebaseにも追加商品を保存
 if (window.firebaseDB) {
   const { database, ref, set } = window.firebaseDB;
 
   set(
-    ref(database, "pipiData/itemNames"),
-    itemNames
+    ref(database, "pipiData/itemNames/" + itemId),
+    name
   );
 
   set(
-    ref(database, "pipiData/stocks"),
-    stocks
-  );
+    ref(database, "pipiData/stocks/" + itemId),
+    stock
+  ).catch(function(error) {
+    console.error("追加商品のFirebase保存エラー:", error);
+  });
 }
 
 saveData();
