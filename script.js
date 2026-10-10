@@ -439,16 +439,19 @@ function showProduction() {
 // 目標数を変更したら残りを再計算
 function saveProductionTargets() {
 
-  const targets = {
-    keyholder:
-      Number(document.getElementById("keyholderTarget").value),
+ const targets =
+  JSON.parse(
+    localStorage.getItem("productionTargets")
+  ) || {};
 
-    bane:
-      Number(document.getElementById("baneTarget").value),
+targets.keyholder =
+  Number(document.getElementById("keyholderTarget").value);
 
-    zipper:
-      Number(document.getElementById("zipperTarget").value)
-  };
+targets.bane =
+  Number(document.getElementById("baneTarget").value);
+
+targets.zipper =
+  Number(document.getElementById("zipperTarget").value);
 
   localStorage.setItem(
     "productionTargets",
