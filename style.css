@@ -1,0 +1,275 @@
+body {
+  font-family: sans-serif;
+  margin: 0;
+  padding: 16px;
+  background: #f7f7f7;
+  color: #333;
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 8px;
+}
+
+h2 {
+  text-align: center;
+  font-size: 20px;
+  margin-top: 28px;
+}
+
+.item {
+  background: white;
+  max-width: 420px;
+  margin: 16px auto;
+  padding: 16px;
+  border-radius: 14px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  text-align: center;
+}
+
+.item p {
+  margin-top: 0;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.item > button {
+  width: 40px;
+  height: 40px;
+  font-size: 20px;
+  margin: 6px;
+  padding: 0;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  background: white;
+}
+
+.item span {
+  font-size: 24px;
+}
+
+.bulk-area {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  margin-top: 14px;
+  flex-wrap: wrap;
+}
+
+.bulk-area input {
+  width: 90px;
+  height: 40px;
+  padding: 5px 8px;
+  font-size: 16px;
+  box-sizing: border-box;
+}
+
+.bulk-area select {
+  height: 40px;
+  padding: 5px 8px;
+  font-size: 16px;
+}
+
+.bulk-area button {
+  width: auto;
+  height: 40px;
+  padding: 5px 16px;
+  margin: 0;
+  font-size: 16px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
+#history {
+  background: white;
+  max-width: 600px;
+  margin: 20px auto;
+  padding: 12px;
+  border-radius: 14px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+#history div {
+  padding: 10px 4px;
+  border-bottom: 1px solid #eee;
+  font-size: 14px;
+}
+
+#history div:last-child {
+  border-bottom: none;
+}
+
+.reset-area {
+  text-align: center;
+  margin: 30px 0;
+}
+
+.reset-area button {
+  width: auto;
+  height: auto;
+  padding: 10px 16px;
+  margin: 6px;
+  font-size: 14px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
+/* スマホ用 */
+@media (max-width: 600px) {
+  body {
+    padding: 10px;
+  }
+
+  .item {
+    margin: 12px auto;
+    padding: 14px;
+  }
+
+  .bulk-area {
+    gap: 6px;
+  }
+
+  .bulk-area input {
+    width: 80px;
+  }
+
+  .item > button {
+    width: 40px;
+    height: 40px;
+  }
+}
+
+/* 下部メニュー分の余白 */
+body {
+  padding-bottom: 90px;
+}
+
+/* 下部メニュー */
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+
+  display: flex;
+  justify-content: space-around;
+
+  background: white;
+  border-top: 1px solid #ddd;
+
+  padding: 6px 0;
+}
+
+/* メニューボタン */
+.bottom-nav .nav-button {
+  width: 25%;
+  height: 55px;
+  margin: 0;
+  padding: 4px;
+
+  border: none;
+  background: white;
+
+  font-size: 20px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* メニューの文字 */
+.bottom-nav .nav-button small {
+  font-size: 12px;
+  margin-top: 2px;
+}
+
+/* 現在開いているメニュー */
+.bottom-nav .nav-button.active {
+  font-weight: bold;
+  background: #f2f2f2;
+}
+
+/* 各画面は通常非表示 */
+.page {
+  display: none;
+}
+
+/* 選択中の画面だけ表示 */
+.page.active-page {
+  display: block;
+}
+
+/* まだ中身がない画面 */
+.empty-card {
+  background: white;
+  max-width: 420px;
+  margin: 20px auto;
+  padding: 30px 16px;
+  text-align: center;
+  border-radius: 14px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+/* 制作管理カード */
+.production-card {
+  background: white;
+  max-width: 420px;
+  margin: 16px auto;
+  padding: 16px;
+  border-radius: 14px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.production-card h3 {
+  text-align: center;
+  margin-top: 0;
+}
+
+/* 目標・現在庫・残り */
+.production-numbers {
+  display: flex;
+  justify-content: space-around;
+  text-align: center;
+}
+
+.production-numbers div {
+  flex: 1;
+}
+
+.production-numbers small {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 13px;
+}
+
+.production-numbers strong {
+  display: block;
+  font-size: 20px;
+}
+
+.target-input {
+  font-size: 24px;
+ font-weight: normal;
+  width: 65px;
+  text-align: center;
+}
+
+/* iPhoneの下部メニュー調整 */
+.bottom-nav {
+  padding-bottom: env(safe-area-inset-bottom);
+  z-index: 1000;
+}
+
+/* 下部メニューに隠れないようにする */
+body {
+  padding-bottom: calc(90px + env(safe-area-inset-bottom));
+}
+
+/* iPhone入力時の自動ズーム対策 */
+input,
+select,
+textarea {
+  font-size: 16px;
+}

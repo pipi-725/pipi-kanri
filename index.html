@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>ぴぴ管理</title>
+
+  <link rel="manifest" href="manifest.json">
+ <link rel="apple-touch-icon" href="icon-192.png"> 
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <h1>🐾 ぴぴ管理🐾</h1>
+<main>
+
+  <section id="stockPage" class="page active-page">
+
+  <h2>在庫一覧</h2>
+
+  <!-- キーホルダー -->
+  <div class="item">
+
+    <p>キーホルダー</p>
+
+    <button onclick="changeStock('keyholder', -1, '販売')">−</button>
+
+    <span id="keyholder">40</span>
+    <span>個</span>
+
+    <button onclick="changeStock('keyholder', 1, '制作')">＋</button>
+
+    <div class="bulk-area">
+
+      <input
+        type="number"
+        id="keyholderAmount"
+        min="1"
+        placeholder="個数"
+      >
+
+      <select id="keyholderType">
+        <option value="制作">制作</option>
+        <option value="販売">販売</option>
+        <option value="注文">注文</option>
+        <option value="修正">在庫修正</option>
+      </select>
+
+      <button
+        onclick="changeBulkStock(
+          'keyholder',
+          'keyholderAmount',
+          'keyholderType'
+        )"
+      >
+        登録
+      </button>
+
+    </div>
+
+  </div>
+
+
+  <!-- バネ口ポーチ -->
+  <div class="item">
+
+    <p>バネ口ポーチ</p>
+
+    <button onclick="changeStock('bane', -1, '販売')">−</button>
+
+    <span id="bane">24</span>
+    <span>個</span>
+
+    <button onclick="changeStock('bane', 1, '制作')">＋</button>
+
+    <div class="bulk-area">
+
+      <input
+        type="number"
+        id="baneAmount"
+        min="1"
+        placeholder="個数"
+      >
+
+      <select id="baneType">
+        <option value="制作">制作</option>
+        <option value="販売">販売</option>
+        <option value="注文">注文</option>
+        <option value="修正">在庫修正</option>
+      </select>
+
+      <button
+        onclick="changeBulkStock(
+          'bane',
+          'baneAmount',
+          'baneType'
+        )"
+      >
+        登録
+      </button>
+
+    </div>
+
+  </div>
+
+
+  <!-- ファスナーポーチ -->
+  <div class="item">
+
+    <p>ファスナーポーチ</p>
+
+    <button onclick="changeStock('zipper', -1, '販売')">−</button>
+
+    <span id="zipper">15</span>
+    <span>個</span>
+
+    <button onclick="changeStock('zipper', 1, '制作')">＋</button>
+
+    <div class="bulk-area">
+
+      <input
+        type="number"
+        id="zipperAmount"
+        min="1"
+        placeholder="個数"
+      >
+
+      <select id="zipperType">
+        <option value="制作">制作</option>
+        <option value="販売">販売</option>
+        <option value="注文">注文</option>
+        <option value="修正">在庫修正</option>
+      </select>
+
+      <button
+        onclick="changeBulkStock(
+          'zipper',
+          'zipperAmount',
+          'zipperType'
+        )"
+      >
+        登録
+      </button>
+
+    </div>
+
+  </div>
+
+<!-- 追加した商品の表示場所 -->
+<div id="customItems"></div>
+
+   <div class="add-item-area">
+
+  <button
+    id="addItemButton"
+    onclick="showAddItemForm()"
+  >
+    ＋ 商品を追加
+  </button>
+
+
+  <div id="addItemForm" style="display: none;">
+
+    <p>商品名</p>
+
+    <input
+      type="text"
+      id="newItemName"
+      placeholder="例：巾着"
+    >
+
+
+    <p>初期在庫</p>
+
+    <input
+      type="number"
+      id="newItemStock"
+      min="0"
+      value="0"
+    >
+
+    <span>個</span>
+
+
+    <br><br>
+
+    <button onclick="addNewItem()">
+      追加する
+    </button>
+
+    <button onclick="hideAddItemForm()">
+      キャンセル
+    </button>
+
+  </div>
+
+</div> 
+
+  <h2>在庫履歴</h2>
+
+  <div id="history"></div>
+
+
+  <div class="reset-area">
+
+    <button onclick="resetStocks()">
+      在庫をリセット
+    </button>
+
+    <button onclick="clearHistory()">
+      履歴を削除
+    </button>
+
+  </div>
+
+  </section>
+
+
+ <section id="productionPage" class="page">
+
+  <h2>🧵 制作管理</h2>
+
+  <!-- キーホルダー -->
+  <div class="production-card">
+
+    <h3>キーホルダー</h3>
+
+    <div class="production-numbers">
+
+      <div>
+  <small>目標</small>
+  <strong>
+    <input
+      type="number"
+      id="keyholderTarget"
+      value="85"
+      min="0"
+      class="target-input"
+    >個
+  </strong>
+</div>
+
+
+      <div>
+        <small>現在庫</small>
+        <strong>
+          <span id="keyholderCurrent">0</span>個
+        </strong>
+      </div>
+
+      <div>
+        <small>残り</small>
+        <strong>
+          <span id="keyholderRemaining">0</span>個
+        </strong>
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- バネ口ポーチ -->
+  <div class="production-card">
+
+    <h3>バネ口ポーチ</h3>
+
+    <div class="production-numbers">
+
+     <div>
+  <small>目標</small>
+  <strong>
+    <input
+      type="number"
+      id="baneTarget"
+      value="32"
+      min="0"
+      class="target-input"
+    >個
+  </strong>
+</div>
+
+      <div>
+        <small>現在庫</small>
+        <strong>
+          <span id="baneCurrent">0</span>個
+        </strong>
+      </div>
+
+      <div>
+        <small>残り</small>
+        <strong>
+          <span id="baneRemaining">0</span>個
+        </strong>
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- ファスナーポーチ -->
+  <div class="production-card">
+
+    <h3>ファスナーポーチ</h3>
+
+    <div class="production-numbers">
+
+      <div>
+  <small>目標</small>
+  <strong>
+    <input
+      type="number"
+      id="zipperTarget"
+      value="30"
+      min="0"
+      class="target-input"
+    >個
+  </strong>
+</div>
+
+
+      <div>
+        <small>現在庫</small>
+        <strong>
+          <span id="zipperCurrent">0</span>個
+        </strong>
+      </div>
+
+      <div>
+        <small>残り</small>
+        <strong>
+          <span id="zipperRemaining">0</span>個
+        </strong>
+      </div>
+
+    </div>
+
+  </div>
+
+<!-- 追加商品の制作管理 -->
+<div id="customProductionItems"></div>
+
+</section>  
+
+
+
+  <section id="orderPage" class="page">
+    <h2>📝 注文管理</h2>
+
+    <div class="empty-card">
+      <p>注文内容をここで管理します。</p>
+    </div>
+  </section>
+
+
+  <section id="eventPage" class="page">
+    <h2>📅 イベント管理</h2>
+
+    <div class="empty-card">
+      <p>出店予定をここで管理します。</p>
+    </div>
+  </section>
+
+</main>
+
+ <nav class="bottom-nav">
+
+  <button class="nav-button active"
+          onclick="showPage('stockPage', this)">
+    <span>📦</span>
+    <small>在庫</small>
+  </button>
+
+  <button class="nav-button"
+          onclick="showPage('productionPage', this)">
+    <span>🧵</span>
+    <small>制作</small>
+  </button>
+
+  <button class="nav-button"
+          onclick="showPage('orderPage', this)">
+    <span>📝</span>
+    <small>注文</small>
+  </button>
+
+  <button class="nav-button"
+          onclick="showPage('eventPage', this)">
+    <span>📅</span>
+    <small>イベント</small>
+  </button>
+
+</nav>
+
+<script src="script.js"></script>
+
+<script>
+  if ("serviceWorker" in navigator) {
+
+    window.addEventListener("load", function() {
+
+      navigator.serviceWorker.register("./service-worker.js")
+        .then(function() {
+          console.log("Service Worker 登録成功");
+        })
+        .catch(function(error) {
+          console.log("Service Worker 登録失敗", error);
+        });
+
+    });
+
+  }
+</script>
+
+</body>
+
+</html>

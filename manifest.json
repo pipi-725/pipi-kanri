@@ -1,0 +1,22 @@
+{
+  "name": "ぴぴ管理",
+  "short_name": "ぴぴ管理",
+  "description": "ぴぴの商品・在庫・制作を管理するアプリ",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#f7f7f7",
+  "theme_color": "#ffffff",
+  "lang": "ja",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
