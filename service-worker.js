@@ -1,4 +1,4 @@
-const CACHE_NAME = "pipi-kanri-v3";
+const CACHE_NAME = "pipi-kanri-v4";
 
 const FILES_TO_CACHE = [
   "./",
@@ -26,16 +26,22 @@ self.addEventListener("install", function(event) {
 
 // 保存したファイルを優先して読み込む
 self.addEventListener("fetch", function(event) {
-
   event.respondWith(
-    caches.match(event.request)
+    fetch(event.request)
       .then(function(response) {
+        const responseClone = response.clone();
 
-        return response || fetch(event.request);
+        caches.open(CACHE_NAME)
+          .then(function(cache) {
+            cache.put(event.request, responseClone);
+          });
 
+        return response;
+      })
+      .catch(function() {
+        return caches.match(event.request);
       })
   );
-
 });
 
 // 古いキャッシュを削除
