@@ -556,7 +556,20 @@ function addNewItem() {
     "stocks",
     JSON.stringify(stocks)
   );
+// Firebaseにも追加商品を保存
+if (window.firebaseDB) {
+  const { database, ref, set } = window.firebaseDB;
 
+  set(
+    ref(database, "pipiData/itemNames"),
+    itemNames
+  );
+
+  set(
+    ref(database, "pipiData/stocks"),
+    stocks
+  );
+}
 
   hideAddItemForm();
 
