@@ -391,9 +391,22 @@
     <textarea id="eventMemo" placeholder="搬入時間・持ち物など"></textarea>
   </label>
 
-  <button type="button" onclick="addEvent()">
-    登録
-  </button>
+  <button
+  type="button"
+  id="eventSubmitButton"
+  onclick="addEvent()"
+>
+  登録
+</button>
+
+<button
+  type="button"
+  id="eventCancelEditButton"
+  onclick="cancelEventEdit()"
+  style="display: none;"
+>
+  編集をキャンセル
+</button>
 
 </div>
 
