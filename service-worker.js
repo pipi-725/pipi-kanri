@@ -1,4 +1,4 @@
-const CACHE_NAME = "pipi-kanri-v8";
+const CACHE_NAME = "pipi-kanri-v9";
 
 const FILES_TO_CACHE = [
   "./",
