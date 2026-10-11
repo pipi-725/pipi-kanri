@@ -374,3 +374,22 @@ textarea {
   font-size: 17px;
   border-radius: 10px;
 }
+
+/* 商品追加フォームのボタン */
+#addItemForm button {
+  min-width: 110px;
+  min-height: 44px;
+  padding: 8px 14px;
+  font-size: 17px;
+  border-radius: 10px;
+}
+
+/* 商品追加フォームの入力欄 */
+#addItemForm input {
+  height: 44px;
+  padding: 8px 12px;
+  font-size: 17px;
+  box-sizing: border-box;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
