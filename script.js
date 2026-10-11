@@ -193,20 +193,21 @@ function saveData() {
     "stockHistory",
     JSON.stringify(history)
   );
-
+  
 // Firebaseにも保存
 if (window.firebaseDB) {
   const { database, ref, set } = window.firebaseDB;
 
   set(
-  ref(database, "pipiData/stocks"),
-  stocks
-);
-
-set(
-  ref(database, "pipiData/history"),
-  history
-).catch(function(error) {
+    ref(database, "pipiData"),
+    {
+      stocks: stocks,
+      history: history,
+      itemNames: itemNames,
+      productionTargets:
+        JSON.parse(localStorage.getItem("productionTargets")) || {}
+    }
+  ).catch(function(error) {
     console.error("Firebase保存エラー:", error);
   });
 }
