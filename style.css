@@ -359,7 +359,7 @@ textarea {
 }
 
 .event-form input[type="date"] {
-  width: 100%;
+  width: calc(100% - 12px);
   max-width: 100%;
   min-width: 0;
   box-sizing: border-box;
