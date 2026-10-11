@@ -971,6 +971,8 @@ if (data.events) {
 
 let events =
   JSON.parse(localStorage.getItem("events")) || [];
+ 
+let editingEventId = null;
 
 function addEvent() {
 
@@ -994,6 +996,22 @@ function addEvent() {
     return;
   }
 
+ if (editingEventId !== null) {
+
+  const event = events.find(function(event) {
+    return event.id === editingEventId;
+  });
+
+  if (event) {
+    event.name = name;
+    event.date = date;
+    event.place = place;
+    event.fee = fee;
+    event.memo = memo;
+  }
+
+} else {
+
   const event = {
     id: Date.now(),
     name: name,
@@ -1004,6 +1022,7 @@ function addEvent() {
   };
 
   events.push(event);
+}
 
   localStorage.setItem(
     "events",
@@ -1029,6 +1048,10 @@ if (window.firebaseDB) {
   document.getElementById("eventPlace").value = "";
   document.getElementById("eventFee").value = "";
   document.getElementById("eventMemo").value = "";
+  editingEventId = null;
+
+document.getElementById("eventSubmitButton").textContent = "登録";
+document.getElementById("eventCancelEditButton").style.display = "none";
 }
 
 function showEvents() {
@@ -1059,10 +1082,91 @@ function showEvents() {
       <p>📍 ${event.place || "未設定"}</p>
       <p>💰 出店料：${event.fee ? event.fee + "円" : "未設定"}</p>
       <p>📝 ${event.memo || "メモなし"}</p>
+      <button class="event-edit-button" onclick="editEvent(${event.id})">編集</button>
+      <button class="event-delete-button" onclick="deleteEvent(${event.id})">削除</button>
     `;
 
     eventList.appendChild(card);
   });
+}
+
+function deleteEvent(id) {
+
+  const result = confirm(
+    "このイベントを削除しますか？"
+  );
+
+  if (!result) {
+    return;
+  }
+
+  events = events.filter(function(event) {
+    return event.id !== id;
+  });
+
+  localStorage.setItem(
+    "events",
+    JSON.stringify(events)
+  );
+
+  // Firebaseにも削除後のイベント一覧を保存
+if (window.firebaseDB) {
+  const { database, ref, set } = window.firebaseDB;
+
+  set(
+    ref(database, "pipiData/events"),
+    events
+  ).catch(function(error) {
+    console.error("イベント削除エラー:", error);
+  });
+}
+  showEvents();
+}
+
+function editEvent(id) {
+
+  const event = events.find(function(event) {
+    return event.id === id;
+  });
+
+  if (!event) {
+    return;
+  }
+
+  editingEventId = id;
+
+document.getElementById("eventSubmitButton").textContent = "更新する";
+document.getElementById("eventCancelEditButton").style.display = "block";
+
+  document.getElementById("eventName").value =
+    event.name || "";
+
+  document.getElementById("eventDate").value =
+    event.date || "";
+
+  document.getElementById("eventPlace").value =
+    event.place || "";
+
+  document.getElementById("eventFee").value =
+    event.fee || "";
+
+  document.getElementById("eventMemo").value =
+    event.memo || "";
+
+}
+
+function cancelEventEdit() {
+
+  editingEventId = null;
+
+  document.getElementById("eventName").value = "";
+  document.getElementById("eventDate").value = "";
+  document.getElementById("eventPlace").value = "";
+  document.getElementById("eventFee").value = "";
+  document.getElementById("eventMemo").value = "";
+
+  document.getElementById("eventSubmitButton").textContent = "登録";
+  document.getElementById("eventCancelEditButton").style.display = "none";
 }
 
 showEvents();
