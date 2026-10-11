@@ -393,3 +393,25 @@ textarea {
   border-radius: 8px;
   border: 1px solid #ccc;
 }
+
+/* イベントの編集・削除ボタン */
+.event-edit-button,
+.event-delete-button {
+  min-width: 70px;
+  min-height: 40px;
+  padding: 6px 12px;
+  margin: 6px 4px 0;
+  font-size: 15px;
+  border-radius: 10px;
+}
+
+/* スマホではイベントボタンを大きくする */
+@media (max-width: 600px) {
+  .event-edit-button,
+  .event-delete-button {
+    min-width: 80px;
+    min-height: 44px;
+    padding: 8px 14px;
+    font-size: 16px;
+  }
+}

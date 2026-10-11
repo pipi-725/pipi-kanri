@@ -1153,6 +1153,11 @@ document.getElementById("eventCancelEditButton").style.display = "block";
   document.getElementById("eventMemo").value =
     event.memo || "";
 
+  document.querySelector(".event-form").scrollIntoView({
+  behavior: "smooth",
+  block: "start"
+});
+
 }
 
 function cancelEventEdit() {
