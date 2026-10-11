@@ -193,7 +193,7 @@ function saveData() {
     "stockHistory",
     JSON.stringify(history)
   );
-  
+
 // Firebaseにも保存
 if (window.firebaseDB) {
   const { database, ref, set } = window.firebaseDB;
@@ -946,14 +946,125 @@ if (data.productionTargets) {
     data.productionTargets.zipper;
 }
 
+if (data.events) {
+  events = data.events;
+
+  localStorage.setItem(
+    "events",
+    JSON.stringify(events)
+  );
+}
 
     showStocks();
     showHistory();
     showProduction();
     showCustomItems();
+    showEvents();
 
     console.log("Firebaseから読み込みました");
   });
 }
+
+// --------------------
+// イベント管理
+// --------------------
+
+let events =
+  JSON.parse(localStorage.getItem("events")) || [];
+
+function addEvent() {
+
+  const name =
+    document.getElementById("eventName").value.trim();
+
+  const date =
+    document.getElementById("eventDate").value;
+
+  const place =
+    document.getElementById("eventPlace").value.trim();
+
+  const fee =
+    document.getElementById("eventFee").value;
+
+  const memo =
+    document.getElementById("eventMemo").value.trim();
+
+  if (name === "") {
+    alert("イベント名を入力してください");
+    return;
+  }
+
+  const event = {
+    id: Date.now(),
+    name: name,
+    date: date,
+    place: place,
+    fee: fee,
+    memo: memo
+  };
+
+  events.push(event);
+
+  localStorage.setItem(
+    "events",
+    JSON.stringify(events)
+  );
+
+  // Firebaseにもイベントを保存
+if (window.firebaseDB) {
+  const { database, ref, set } = window.firebaseDB;
+
+  set(
+    ref(database, "pipiData/events"),
+    events
+  ).catch(function(error) {
+    console.error("イベント保存エラー:", error);
+  });
+}
+
+  showEvents();
+
+  document.getElementById("eventName").value = "";
+  document.getElementById("eventDate").value = "";
+  document.getElementById("eventPlace").value = "";
+  document.getElementById("eventFee").value = "";
+  document.getElementById("eventMemo").value = "";
+}
+
+function showEvents() {
+
+  const eventList =
+    document.getElementById("eventList");
+
+  if (!eventList) {
+    return;
+  }
+
+  eventList.innerHTML = "";
+
+  if (events.length === 0) {
+    eventList.innerHTML =
+      "<p>まだイベントは登録されていません。</p>";
+    return;
+  }
+
+  events.forEach(function(event) {
+
+    const card = document.createElement("div");
+    card.className = "event-card";
+
+    card.innerHTML = `
+      <h3>${event.name}</h3>
+      <p>📅 ${event.date || "未設定"}</p>
+      <p>📍 ${event.place || "未設定"}</p>
+      <p>💰 出店料：${event.fee ? event.fee + "円" : "未設定"}</p>
+      <p>📝 ${event.memo || "メモなし"}</p>
+    `;
+
+    eventList.appendChild(card);
+  });
+}
+
+showEvents();
 
 loadFirebaseData();
