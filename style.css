@@ -365,3 +365,12 @@ textarea {
   box-sizing: border-box;
   
 }
+
+/* 商品を追加ボタン */
+#addItemButton {
+  width: 160px;
+  min-height: 44px;
+  padding: 8px 14px;
+  font-size: 17px;
+  border-radius: 10px;
+}
